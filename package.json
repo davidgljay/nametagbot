@@ -1,0 +1,11 @@
+{
+  "name": "ntbot",
+  "version": "0.0.1",
+  "description": "A Slack Bot For Introducing New Community Members",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "David Jay (davidgljay@gmail.com)",
+  "license": "ISC"
+}
