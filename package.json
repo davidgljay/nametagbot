@@ -4,7 +4,9 @@
   "description": "A Slack Bot For Introducing New Community Members",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "lint": "standard",
+    "lint-fix": "standard --fix"
   },
   "author": "David Jay (davidgljay@gmail.com)",
   "license": "ISC",
