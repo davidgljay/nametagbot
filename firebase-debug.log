@@ -1,0 +1,18 @@
+[debug] [2018-05-25T02:35:33.337Z] ----------------------------------------------------------------------
+[debug] [2018-05-25T02:35:33.340Z] Command:       /Users/davidjay/.nvm/versions/node/v7.6.0/bin/node /Users/davidjay/.nvm/versions/node/v7.6.0/bin/firebase deploy
+[debug] [2018-05-25T02:35:33.341Z] CLI Version:   3.18.5
+[debug] [2018-05-25T02:35:33.341Z] Platform:      darwin
+[debug] [2018-05-25T02:35:33.341Z] Node Version:  v7.6.0
+[debug] [2018-05-25T02:35:33.341Z] Time:          Thu May 24 2018 19:35:33 GMT-0700 (PDT)
+[debug] [2018-05-25T02:35:33.342Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-05-25T02:35:33.384Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-05-25T02:35:33.385Z] > authorizing via signed-in user
+[debug] [2018-05-25T02:35:33.400Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/nametagbot  
+  
+ Thu May 24 2018 19:35:33 GMT-0700 (PDT)
+[debug] [2018-05-25T02:35:34.057Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-25T02:35:34.059Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/nametagbot/tokens  
+  
+ Thu May 24 2018 19:35:34 GMT-0700 (PDT)
+[debug] [2018-05-25T02:35:34.456Z] <<< HTTP RESPONSE 200

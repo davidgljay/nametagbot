@@ -13,7 +13,6 @@
   "dependencies": {
     "firebase-admin": "~5.12.1",
     "firebase-functions": "^1.0.3",
-    "cloud-functions-runtime-config": "^0.4.0",
     "standard": "^11.0.1"
   },
   "private": true
