@@ -1,5 +1,5 @@
-const url_verification = require('./url_verification')
+const urlVerification = require('./url_verification')
 
 module.exports = {
-  url_verification
+  urlVerification
 }

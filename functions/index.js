@@ -15,10 +15,9 @@ exports.events = functions.https.onRequest((req, res) => env.then(env => {
     res.end()
     return
   }
-  
+
   if (req.body.type === 'url_verification') {
-    events.url_verification(req, res)
-    return
+    events.urlVerification(req, res)
   }
 
   // TODO: Call appropriate controller functions

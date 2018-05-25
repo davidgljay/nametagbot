@@ -4,7 +4,7 @@
   "description": "A Slack Bot For Introducing New Community Members",
   "main": "index.js",
   "scripts": {
-    "test": "jasmine",
+    "test": "standard && jasmine",
     "lint": "standard",
     "lint-fix": "standard --fix"
   },
@@ -16,5 +16,10 @@
   "devDependencies": {
     "jasmine": "^3.1.0",
     "standard": "^11.0.1"
+  },
+  "standard": {
+    "ignore": [
+      "/spec/"
+    ]
   }
 }
