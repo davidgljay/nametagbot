@@ -1,0 +1,34 @@
+[debug] [2018-05-25T02:51:18.111Z] ----------------------------------------------------------------------
+[debug] [2018-05-25T02:51:18.114Z] Command:       /Users/davidjay/.nvm/versions/node/v7.6.0/bin/node /Users/davidjay/.nvm/versions/node/v7.6.0/bin/firebase serve
+[debug] [2018-05-25T02:51:18.115Z] CLI Version:   3.18.5
+[debug] [2018-05-25T02:51:18.115Z] Platform:      darwin
+[debug] [2018-05-25T02:51:18.115Z] Node Version:  v7.6.0
+[debug] [2018-05-25T02:51:18.115Z] Time:          Thu May 24 2018 19:51:18 GMT-0700 (PDT)
+[debug] [2018-05-25T02:51:18.115Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-05-25T02:51:18.133Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-05-25T02:51:18.133Z] > authorizing via signed-in user
+[debug] [2018-05-25T02:51:18.136Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/nametagbot  
+  
+ Thu May 24 2018 19:51:18 GMT-0700 (PDT)
+[debug] [2018-05-25T02:51:18.496Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-25T02:51:18.498Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/nametagbot/tokens  
+  
+ Thu May 24 2018 19:51:18 GMT-0700 (PDT)
+[debug] [2018-05-25T02:51:18.917Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-25T02:51:18.918Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/nametagbot  
+  
+ Thu May 24 2018 19:51:18 GMT-0700 (PDT)
+[debug] [2018-05-25T02:51:19.224Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/davidjay/Projects/ntbot'...
+[info] 
+[info] i  functions: Preparing to emulate functions.
+[debug] [2018-05-25T02:51:20.506Z] Fetching environment
+[debug] [2018-05-25T02:51:20.510Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/807694034046:getServerAppConfig  
+  
+ Thu May 24 2018 19:51:20 GMT-0700 (PDT)
+[debug] [2018-05-25T02:51:21.064Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-25T02:51:21.065Z] Starting @google-cloud/functions-emulator
+[debug] [2018-05-25T02:51:23.842Z] Parsing function triggers
+[info] ✔  functions: events: http://localhost:5000/nametagbot/us-central1/events
