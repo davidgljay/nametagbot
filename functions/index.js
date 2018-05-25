@@ -1,6 +1,7 @@
 const functions = require('firebase-functions')
 const runtimeConfig = require('cloud-functions-runtime-config')
 const env = runtimeConfig.getVariable('slack_token')
+const events = require('../events')
 
 /*
 * Function for handling Slack events
@@ -14,11 +15,11 @@ exports.events = functions.https.onRequest((req, res) => env.then(env => {
     res.end()
     return
   }
-
-  switch (req.body.type) {
-    case 'url_verification':
-      res.send({challenge: req.body.challenge})
-      break
+  
+  if (req.body.type === 'url_verification') {
+    events.url_verification(req, res)
+    return
   }
+
   // TODO: Call appropriate controller functions
 }))
