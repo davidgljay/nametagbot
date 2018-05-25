@@ -19,7 +19,8 @@
   },
   "standard": {
     "ignore": [
-      "/spec/"
+      "/spec/",
+      "/events/index.js"
     ]
   }
 }
