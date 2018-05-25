@@ -7,8 +7,10 @@ const events = require('./events')
 */
 
 exports.events = functions.https.onRequest((req, res) => {
-  if (req.status !== 'POST' || req.body.token !== env.slack_token) {
-    console.error('Incorrect Slack token received with request')
+  if (req.method !== 'POST' || req.body.token !== env.bot.slack_token) {
+    console.log(req.method)
+    console.error('Incorrect Slack token received with request', env, req.body)
+    console.log(req.body.token, env.bot.slack_token, env.bot.slack_token === req.body.token)
     res.status(403)
     res.send('Not Authorized')
     res.end()
