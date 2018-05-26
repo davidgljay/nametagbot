@@ -27,5 +27,6 @@ exports.events = functions.https.onRequest((req, res) => {
 
   res.end()
 
-  // TODO: Call appropriate controller functions
 })
+
+exports.register
