@@ -4,7 +4,8 @@
   "description": "A Slack Bot For Introducing New Community Members",
   "main": "index.js",
   "scripts": {
-    "test": "standard && jasmine",
+    "test": "standard && jest",
+    "test-watch": "jest --watch",
     "lint": "standard",
     "lint-fix": "standard --fix"
   },
@@ -14,12 +15,12 @@
     "firebase-admin": "^5.12.1"
   },
   "devDependencies": {
-    "jasmine": "^3.1.0",
+    "jest": "^23.0.0",
     "standard": "^11.0.1"
   },
   "standard": {
     "ignore": [
-      "/spec/",
+      "/functions/spec/",
       "/functions/events/index.js"
     ]
   }
