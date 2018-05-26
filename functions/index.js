@@ -15,18 +15,23 @@ exports.events = functions.https.onRequest((req, res) => {
     return
   }
 
-  res.setHeader('Content-Type','application/json')
-
-  if (req.body.type === 'url_verification') {
-    events[req.body.type](req, res)
-  } else if (req.body.type === 'event_callback') {
-    events[req.body.event.type](req, res)
-  }
-  
-  
-
+  res.setHeader('Content-Type', 'application/json')
   res.end()
 
+  if (req.body.type === 'url_verification') {
+    return events[req.body.type](req, res)
+  } else if (req.body.type === 'event_callback') {
+    return events[req.body.event.type](req, res)
+  }
 })
 
-exports.register
+exports.register = functions.https.onRequest((req, res) => {
+  if (req.method !== 'GET') {
+    res.status(405)
+    res.send('Only accepts GET Requests')
+    res.end()
+  }
+
+  return events.register(req.query.code)
+    .then(() => res.status(200).end())
+})

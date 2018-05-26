@@ -20,7 +20,7 @@
   "standard": {
     "ignore": [
       "/spec/",
-      "/events/index.js"
+      "/functions/events/index.js"
     ]
   }
 }
