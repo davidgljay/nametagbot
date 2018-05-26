@@ -7,5 +7,5 @@ module.exports = {
       .doc(id)
       .update({[prop]: val}),
     
-    find: id => db.collection('profiles').get(id)
+    get: id => db.collection('profiles').get(id)
 }
