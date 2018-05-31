@@ -16,5 +16,11 @@
     "firebase-functions": "^1.0.3",
     "standard": "^11.0.1"
   },
+  "standard": {
+    "ignore": [
+      "/spec/",
+      "/events/index.js"
+    ]
+  },
   "private": true
 }
