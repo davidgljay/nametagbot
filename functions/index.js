@@ -15,13 +15,12 @@ exports.events = functions.https.onRequest((req, res) => {
     return
   }
 
-  res.setHeader('Content-Type', 'application/json')
-  res.end()
-
   if (req.body.type === 'url_verification') {
     return events[req.body.type](req, res)
   } else if (req.body.type === 'event_callback') {
-    return events[req.body.event.type](req, res)
+    res.setHeader('Content-Type', 'application/json')
+    res.end()
+    return events[req.body.event.type](req)
   }
 })
 
