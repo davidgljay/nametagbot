@@ -1,4 +1,5 @@
 const db = require('../db')
+const slackapi = require('../slackapi')
 
 module.exports = {
   create: profile => db.collection('profiles').add(profile),
@@ -7,5 +8,15 @@ module.exports = {
     .doc(id)
     .update({[prop]: val}),
 
-  get: id => db.collection('profiles').get(id)
+  get: id => db.collection('profiles').get(id),
+
+  openConvo: (token, userId, text) =>
+    slackapi.conversations.open({token, users: userId})
+      .then(slackapi.catchErr('Error opening conversation'))
+      .then(conversation => slackapi.chat.postMessage({
+        token,
+        as_user: false,
+        channel: conversation.channel.id,
+        text
+      }))
 }

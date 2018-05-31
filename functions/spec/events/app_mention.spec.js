@@ -1,12 +1,12 @@
 
-const appMentionEvent = require('../events/app_mention')
-const appMentionObj = require('../models/appMention')
-const profileObj = require('../models/profile')
-const slackapi = require('../slackapi')
-const lang = require('../lang')
-jest.mock('../slackapi')
-jest.mock('../models/appMention')
-jest.mock('../models/profile')
+const appMentionEvent = require('../../events/app_mention')
+const appMentionObj = require('../../models/appMention')
+const profileObj = require('../../models/profile')
+const slackapi = require('../../slackapi')
+const lang = require('../../lang')
+jest.mock('../../slackapi')
+jest.mock('../../models/appMention')
+jest.mock('../../models/profile')
 
 describe('app_mention', () => {
   let req = {
@@ -43,8 +43,7 @@ describe('app_mention', () => {
     return appMentionEvent(req)
       .then(() => {
         expect(profileObj.create.mock.calls.length).toEqual(0)
-        expect(slackapi.conversations.open.mock.calls.length).toEqual(0)
-        expect(slackapi.chat.postMessage.mock.calls.length).toEqual(0)
+        expect(profileObj.openConvo.mock.calls.length).toEqual(0)
       })
   })
 
@@ -57,8 +56,7 @@ describe('app_mention', () => {
       .then(() => {
         expect(slackapi.users.info.mock.calls[0][0]).toEqual({token: req.body.token, user: req.body.event.user})
         expect(profileObj.create.mock.calls[0][0]).toEqual(user)
-        expect(slackapi.conversations.open.mock.calls[0][0]).toEqual({token: req.body.token, users: req.body.event.user})
-        expect(slackapi.chat.postMessage.mock.calls[0][0]).toEqual({token: req.body.token, channel: 'channelid', text: lang.greeter.thanks(), as_user: false})
+        expect(profileObj.openConvo.mock.calls[0]).toEqual([req.body.token, req.body.event.user, lang.greeter.thanks()])
       })
   })
 })

@@ -1,9 +1,9 @@
 
-const register = require('../events/register')
-const team = require('../models/team')
-const slackapi = require('../slackapi')
-jest.mock('../models/team')
-jest.mock('../slackapi')
+const register = require('../../events/register')
+const team = require('../../models/team')
+const slackapi = require('../../slackapi')
+jest.mock('../../models/team')
+jest.mock('../../slackapi')
 
 describe('register', () => {
   let req

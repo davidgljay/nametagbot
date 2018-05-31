@@ -1,4 +1,4 @@
-const url_verification = require('../events/url_verification')
+const url_verification = require('../../events/url_verification')
 
 describe('url_verification', () => {
   it('should return a challenge', () => {

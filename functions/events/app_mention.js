@@ -12,12 +12,5 @@ module.exports = ({body: {token, event}}) => appMention.create(event)
     : slackapi.users.info({token, user: event.user})
       .then(slackapi.catchErr('Error getting user info'))
       .then(userInfo => profile.create(userInfo.user))
-      .then(() => slackapi.conversations.open({token, users: event.user}))
-      .then(slackapi.catchErr('Error opening conversation'))
-      .then(conversation => slackapi.chat.postMessage({
-        token,
-        as_user: false,
-        channel: conversation.channel.id,
-        text: lang.greeter.thanks()
-      }))
+      .then(() => profile.openConvo(token, event.user, lang.greeter.thanks()))
   )

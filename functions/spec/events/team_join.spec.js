@@ -1,12 +1,11 @@
-jest.mock('../slackapi')
-jest.mock('../models/profile')
-// jest.mock('firebase-functions')
+jest.mock('../../slackapi')
+jest.mock('../../models/profile')
 
-const slackapi = require('../slackapi')
+const slackapi = require('../../slackapi')
 
-const profile = require('../models/profile')
-const team_join = require('../events/team_join')
-const lang = require('../lang')
+const profile = require('../../models/profile')
+const team_join = require('../../events/team_join')
+const lang = require('../../lang')
 
 
 describe('team_join', () => {
