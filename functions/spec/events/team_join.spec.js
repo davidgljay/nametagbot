@@ -3,7 +3,7 @@ jest.mock('../../models/profile')
 
 const slackapi = require('../../slackapi')
 
-const profile = require('../../models/profile')
+const profileObj = require('../../models/profile')
 const team_join = require('../../events/team_join')
 const lang = require('../../lang')
 
@@ -11,7 +11,7 @@ const lang = require('../../lang')
 describe('team_join', () => {
   let req
   beforeEach(() => {
-    profile.create.mockReturnValueOnce(Promise.resolve())
+    profileObj.create.mockReturnValueOnce(Promise.resolve())
     slackapi.conversations.open.mockReturnValueOnce({ok: true, channel: {id: 'defg'}})
     req = {body: {token: '12345', event: {user: {id: 'abcd'}}}}
    })
@@ -19,25 +19,14 @@ describe('team_join', () => {
   it('should create a new profile', () =>
     team_join(req)
       .then(() => {
-        expect(profile.create.mock.calls[0][0]).toEqual({id: 'abcd'})
+        expect(profileObj.create.mock.calls[0][0]).toEqual({id: 'abcd'})
       })
   )
 
-  it('should open a channel', () =>
+  it('should open a new conversation', () =>
     team_join(req)
       .then(() => {
-        expect(slackapi.conversations.open.mock.calls[0][0]).toEqual({token: '12345', users: 'abcd'})
-      })
-  )
-
-  it('should post a message', () =>
-    team_join(req)
-      .then(() => {
-        expect(slackapi.chat.postMessage.mock.calls[0][0]).toEqual({
-          as_user: false,
-          channel: 'defg',
-          text: lang.newMember.welcome()
-        })
+        expect(profileObj.openConvo.mock.calls[0]).toEqual(['12345', 'abcd', lang.newMember.welcome()])
       })
   )
 })
