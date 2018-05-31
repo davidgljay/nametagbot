@@ -8,9 +8,6 @@ module.exports = {
     bio: () => 'Cool, now give us a sense of what brings you here. Why did you decide to join this community? Here\'s what a few other people have said:'
   },
   greeter: {
-    recruit: () => 'Would you like to help orient new people to this channel?' +
-      'If you agree I\'ll ocassionally connect you with people who have just joined.',
-    nothanks: () => 'No problem! I won\'t bother you again. If you change your mind just type "join".',
     thanks: () => 'Thanks! I\'ve added you to a special #greeters channel and will connect you with new people as they join.'
   }
 }

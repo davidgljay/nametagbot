@@ -14,7 +14,7 @@ describe('team_join', () => {
   beforeEach(() => {
     profile.create.mockReturnValueOnce(Promise.resolve())
     slackapi.conversations.open.mockReturnValueOnce({ok: true, channel: {id: 'defg'}})
-    req = {body: {event: {user: {id: 'abcd'}}}}
+    req = {body: {token: '12345', event: {user: {id: 'abcd'}}}}
    })
 
   it('should create a new profile', () =>
@@ -27,7 +27,7 @@ describe('team_join', () => {
   it('should open a channel', () =>
     team_join(req)
       .then(() => {
-        expect(slackapi.conversations.open.mock.calls[0][0]).toEqual('abcd')
+        expect(slackapi.conversations.open.mock.calls[0][0]).toEqual({token: '12345', users: 'abcd'})
       })
   )
 
@@ -37,7 +37,7 @@ describe('team_join', () => {
         expect(slackapi.chat.postMessage.mock.calls[0][0]).toEqual({
           as_user: false,
           channel: 'defg',
-          text: lang.welcome()
+          text: lang.newMember.welcome()
         })
       })
   )
