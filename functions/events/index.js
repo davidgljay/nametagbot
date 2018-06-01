@@ -8,5 +8,6 @@ module.exports = {
   url_verification,
   team_join,
   register,
-  reaction_added
+  reaction_added,
+  app_mention
 }

@@ -17,11 +17,14 @@ exports.events = functions.https.onRequest((req, res) => {
 
   if (req.body.type === 'url_verification') {
     return events[req.body.type](req, res)
+      .catch(err => console.error(err))
   } else if (req.body.type === 'event_callback') {
     res.setHeader('Content-Type', 'application/json')
     res.end()
     return events[req.body.event.type](req)
+      .catch(err => console.error('Event: ', err))
   }
+  res.sendStatus(400)
 })
 
 exports.register = functions.https.onRequest((req, res) => {
@@ -33,4 +36,5 @@ exports.register = functions.https.onRequest((req, res) => {
 
   return events.register(req.query.code)
     .then(() => res.status(200).end())
+    .catch(err => console.error('Register: ', err))
 })
