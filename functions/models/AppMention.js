@@ -5,5 +5,5 @@ module.exports = {
 
   get: id => db.collection('app_mentions').get(id),
 
-  getByTs: ts => db.collection('app_mentions').where('ts', '==', ts)
+  getByTs: ts => db.collection('app_mentions').where('ts', '==', ts).limit(1).get()
 }
