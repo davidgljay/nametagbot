@@ -10,11 +10,10 @@ module.exports = {
 
   get: id => db.collection('profiles').get(id),
 
-  openConvo: (token, userId, text) =>
-    slackapi.conversations.open({token, users: userId})
+  openConvo: (userId, text) =>
+    slackapi.conversations.open({users: userId})
       .then(slackapi.catchErr('Error opening conversation'))
       .then(conversation => slackapi.chat.postMessage({
-        token,
         as_user: false,
         channel: conversation.channel.id,
         text

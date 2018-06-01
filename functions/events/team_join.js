@@ -1,6 +1,6 @@
 const profile = require('../models/profile')
 const lang = require('../lang')
 
-module.exports = ({body: {token, event: {user}}}) =>
+module.exports = ({body: {event: {user}}}) =>
   profile.create(user)
-    .then(() => profile.openConvo(token, user.id, lang.newMember.welcome()))
+    .then(() => profile.openConvo(user.id, lang.newMember.welcome()))
