@@ -19,9 +19,10 @@ exports.events = functions.https.onRequest((req, res) => {
     return events[req.body.type](req, res)
       .catch(err => console.error(err))
   } else if (req.body.type === 'event_callback') {
-    res.setHeader('Content-Type', 'application/json')
-    res.end()
-    return events[req.body.event.type](req)
+    events[req.body.event.type](req)
+      .then(() => {
+        res.end()
+      })
       .catch(err => console.error('Event: ', err))
   }
   res.sendStatus(400)

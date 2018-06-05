@@ -7,7 +7,8 @@
     "test": "standard && jest",
     "test-watch": "jest --watch",
     "lint": "standard",
-    "lint-fix": "standard --fix"
+    "lint-fix": "standard --fix",
+    "deploy": "firebase deploy --only functions"
   },
   "author": "David Jay (davidgljay@gmail.com)",
   "license": "ISC",

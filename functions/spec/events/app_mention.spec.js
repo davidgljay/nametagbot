@@ -11,7 +11,6 @@ jest.mock('../../models/profile')
 describe('app_mention', () => {
   let req = {
     body: {
-      token: 'imatoken',
       event: {
         type: 'app_mention',
         user: 'U061F7AUR',
