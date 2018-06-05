@@ -1,13 +1,15 @@
-const functions = require('firebase-functions')
-const env = functions.config()
+const express = require('express')
+const app = express()
 const events = require('./events')
 
-/*
-* Function for handling Slack events
-*/
+app.post('/events', (req, res) => {
+  if (req.method !== 'POST') {
+    res.status(405)
+    res.send('Only accepts POST Requests')
+    res.end()
+  }
 
-exports.events = functions.https.onRequest((req, res) => {
-  if (req.method !== 'POST' || req.body.token !== env.slack.token) {
+  if (req.body.token !== process.env.SLACK_TOKEN) {
     console.error('Incorrect Slack token received with request', req.body.token)
     res.status(403)
     res.send('Not Authorized')
@@ -19,16 +21,14 @@ exports.events = functions.https.onRequest((req, res) => {
     return events[req.body.type](req, res)
       .catch(err => console.error(err))
   } else if (req.body.type === 'event_callback') {
-    events[req.body.event.type](req)
-      .then(() => {
-        res.end()
-      })
+    res.end()
+    return events[req.body.event.type](req)
       .catch(err => console.error('Event: ', err))
   }
   res.sendStatus(400)
 })
 
-exports.register = functions.https.onRequest((req, res) => {
+app.post('/register', (req, res) => {
   if (req.method !== 'GET') {
     res.status(405)
     res.send('Only accepts GET Requests')
