@@ -11,7 +11,7 @@
     "deploy": "firebase deploy --only functions"
   },
   "author": "David Jay (davidgljay@gmail.com)",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@slack/client": "^4.2.2",
     "firebase-admin": "^5.12.1"
@@ -22,8 +22,8 @@
   },
   "standard": {
     "ignore": [
-      "/functions/spec/",
-      "/functions/events/index.js"
+      "/spec/",
+      "/events/index.js"
     ]
   }
 }
