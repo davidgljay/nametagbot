@@ -55,7 +55,7 @@ describe('app_mention', () => {
       .then(() => {
         expect(slackapi.users.info.mock.calls[0][0]).toEqual({token: req.body.token, user: req.body.event.user})
         expect(profileObj.create.mock.calls[0][0]).toEqual(user)
-        expect(profileObj.openConvo.mock.calls[0]).toEqual([req.body.token, req.body.event.user, lang.greeter.thanks()])
+        expect(profileObj.openConvo.mock.calls[0]).toEqual([req.body.event.user, lang.greeter.thanks()])
       })
   })
 })
