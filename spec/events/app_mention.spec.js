@@ -28,13 +28,13 @@ describe('app_mention', () => {
 
   it('should save to the the database', () => {
     appMentionEvent(req)
-    expect(appMentionObj.create.mock.calls[0][0]).toEqual(req.body.event)
+    expect(appMentionObj.create.mock.calls[0][1]).toEqual(req.body.event)
   })
 
   it('should query the user', () => {
     profileObj.get.mockReturnValue(null)
     appMentionEvent(req)
-    expect(profileObj.get.mock.calls[0][0]).toEqual(req.body.event.user)
+    expect(profileObj.get.mock.calls[0][1]).toEqual(req.body.event.user)
   })
 
   it('should not message the user if they already exist in the databse', () => {
@@ -54,8 +54,8 @@ describe('app_mention', () => {
     return appMentionEvent(req)
       .then(() => {
         expect(slackapi.users.info.mock.calls[0][0]).toEqual({token: req.body.token, user: req.body.event.user})
-        expect(profileObj.create.mock.calls[0][0]).toEqual(user)
-        expect(profileObj.openConvo.mock.calls[0]).toEqual([req.body.event.user, lang.greeter.thanks()])
+        expect(profileObj.create.mock.calls[0][1]).toEqual({...user, greeter: true})
+        expect(profileObj.openConvo.mock.calls[0]).toEqual([req.body.event.user, lang.profile.background()])
       })
   })
 })

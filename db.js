@@ -1,5 +1,6 @@
-const admin = require('firebase-admin')
+const MongoClient = require('mongodb').MongoClient
+const url = `mongodb://${process.env.MDB_USER}:${process.env.MDB_PASS}@ds149960.mlab.com:49960/ntbot`
+const dbName = process.env.MDB_NAME
 
-admin.initializeApp(process.env.FIRESTORE_KEY)
-
-module.exports = admin.firestore()
+module.exports = MongoClient.connect(url)
+  .then(client => client.db(dbName))
