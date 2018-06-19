@@ -1,11 +1,8 @@
-const db = require('../db')
-
 module.exports = {
-  create: team => db.collection('teams').add(team),
+  create: (db, team) => db.collection('teams').insert(team),
 
-  update: (id, prop, val) => db.collection('teams')
-    .doc(id)
-    .update({[prop]: val}),
+  update: (db, id, prop, val) => db.collection('teams')
+    .updateOne({id}, {'$set': {[prop]: val}}),
 
-  get: id => db.collection('teams').get(id)
+  get: (db, id) => db.collection('teams').findOne({id})
 }

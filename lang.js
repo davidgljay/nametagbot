@@ -1,7 +1,8 @@
 module.exports = {
-  newMember: {
-    welcome: (teamName) => `Welcome to ${teamName}! Several people from this group have volunteered to help welcome new people like you, I'd love to connect you with one who matches your interests. Sound good?`,
-    nothanks: () => 'No problem, just type "join" if you change your mind.'
+  joiner: {
+    welcome: (teamName) => `Welcome to ${teamName}! Several people from this group have volunteered to help welcome new people like you, I'd love to connect you with one who matches your interests.`,
+    nothanks: () => 'No problem, just type "join" if you change your mind.',
+    intros: () => '💯! Here are a few folks from the community who would be excited to chat with you:'
   },
   profile: {
     background: () => 'Great! To get started, briefly share your background. Here\'s what other people from the community have said:',

@@ -3,11 +3,13 @@ const team_join = require('./team_join')
 const register = require('./register')
 const app_mention = require('./app_mention')
 const reaction_added = require('./reaction_added')
+const message = require('./message')
 
 module.exports = {
   url_verification,
   team_join,
   register,
   reaction_added,
-  app_mention
+  app_mention,
+  message
 }
