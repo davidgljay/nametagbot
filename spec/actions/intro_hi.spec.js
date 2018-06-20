@@ -34,25 +34,24 @@ describe('intro_hi action', () => {
   }
 
   beforeEach(() => {
-    
     profileObj.update.mockResolvedValue({})
     profileObj.get.mockResolvedValueOnce(users[0])
     profileObj.get.mockResolvedValueOnce(users[1])
-    
     slackapi.chat.postMessage.mockResolvedValue({})
     slackapi.conversations.open.mockResolvedValue(convo)
   })
-  
+
   afterEach(() => {
     profileObj.get.mock.calls = []
     slackapi.conversations.open.mock.calls = []
     slackapi.chat.postMessage.mock.calls = []
   })
-  
+
   it('should update the button clicker\'s status, open a channel and invite both users', () => {
     hiAction(req, 'db').then(() => {
       expect(profileObj.update.mock.calls[0]).toEqual(['db', users[1].id, {status: 'JOINER_INTROED'}])
-      expect(profileObj.get.mock.calls).toEqual([['db', users[1].id],['db', users[0].id]])
+      expect(profileObj.push.mock.calls[0]).toEqual(['db', users[1].id, {mentees: users[0].id}])
+      expect(profileObj.get.mock.calls).toEqual([['db', users[1].id], ['db', users[0].id]])
       expect(slackapi.conversations.open.calls[0][0]).toEqual({users})
       expect(slackapi.chat.postMessage.mock.calls[0]).toEqual({
         channel: convo.channel.id,
@@ -72,5 +71,4 @@ describe('intro_hi action', () => {
       })
     })
   })
-
 })

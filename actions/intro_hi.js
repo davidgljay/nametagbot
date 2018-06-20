@@ -2,7 +2,10 @@ const slackapi = require('../slackapi')
 const lang = require('../lang')
 const profile = require('../models/profile')
 
-module.exports = (req, db) => profile.update(req.user, {status: 'JOINER_INTROED'})
+module.exports = (req, db) => Promise.all([
+  profile.update(req.user, {status: 'JOINER_INTROED'}),
+  profile.push(req.value, {mentees: req.user})
+])
   .then(() => Promise.all([
     slackapi.conversations.open({users: [req.value, req.user]}),
     profile.get(req.value),
