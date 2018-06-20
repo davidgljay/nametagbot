@@ -2,7 +2,7 @@ const profile = require('../models/profile')
 const lang = require('../lang')
 
 module.exports = ({body: {event: {user}}}, db) =>
-  profile.create(db, Object.assign({}, {user, greeter: false}))
+  profile.create(db, Object.assign({}, user, {status: 'JOINER_BACKGROUND'}))
     .then(() => profile.openConvo(
       user.id,
       lang.joiner.welcome('DJ Bot Test'),

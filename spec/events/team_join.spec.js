@@ -18,7 +18,7 @@ describe('team_join', () => {
   it('should create a new profile', () =>
     team_join(req, db)
       .then(() => {
-        expect(profileObj.create.mock.calls[0]).toEqual(['db', {greeter: false, id: 'abcd'}])
+        expect(profileObj.create.mock.calls[0]).toEqual(['db', {status: 'JOINER_BACKGROUND', id: 'abcd'}])
       })
   )
 
