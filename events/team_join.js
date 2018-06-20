@@ -3,7 +3,7 @@ const lang = require('../lang')
 
 module.exports = ({body: {event: {user}}}, db) =>
   profile.create(db, Object.assign({}, user, {status: 'JOINER_BACKGROUND'}))
-    .then(() => profile.getGreeters())
+    .then(() => profile.getGreeters(db))
     .then(greeters => greeters.length > 0
       ? profile.openConvo(
         user.id,

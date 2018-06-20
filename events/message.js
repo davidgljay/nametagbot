@@ -11,7 +11,7 @@ module.exports = ({body: {event}}, db) => profile.get(db, event.user)
     switch (user.status) {
       case 'JOINER_BACKGROUND':
         return profile.update(db, user.id, {background: event.text, status: 'JOINER_BIO'})
-          .then(() => profile.getGreeters())
+          .then(() => profile.getGreeters(db))
           .then(greeters =>
             slackapi.chat.postMessage({
               channel: event.channel,
@@ -27,7 +27,7 @@ module.exports = ({body: {event}}, db) => profile.get(db, event.user)
           )
       case 'JOINER_BIO':
         return profile.update(db, user.id, {bio: event.text, status: 'JOINER_INTROS'})
-          .then(() => profile.getGreeters())
+          .then(() => profile.getGreeters(db))
           .then(greeters =>
             slackapi.chat.postMessage({
               channel: event.channel,
@@ -47,7 +47,7 @@ module.exports = ({body: {event}}, db) => profile.get(db, event.user)
           )
       case 'GREETER_BACKGROUND':
         return profile.update(db, user.id, {background: event.text, status: 'GREETER_BIO'})
-          .then(() => profile.getGreeters())
+          .then(() => profile.getGreeters(db))
           .then(greeters =>
             slackapi.chat.postMessage({
               channel: event.channel,
