@@ -4,9 +4,11 @@ const appMentionObj = require('../../models/appMention')
 const profileObj = require('../../models/profile')
 const slackapi = require('../../slackapi')
 const lang = require('../../lang')
+const utils = require('../../utils')
 jest.mock('../../slackapi')
 jest.mock('../../models/appMention')
 jest.mock('../../models/profile')
+jest.mock('../../utils')
 
 describe('reaction_added', () => {
   let req = {
@@ -25,9 +27,27 @@ describe('reaction_added', () => {
       }
     }
   }
+  let greeters = [
+    {
+      name: 'Fish',
+      bio: 'I am a fish',
+      background: 'Open water',
+      image: 'http://fish.com/me.jpg',
+      id: 'fsh'
+    },
+    {
+      name: 'Octopus',
+      bio: 'I am an octopus',
+      background: 'Coral reef',
+      image: 'http://octo.com/me.jpg',
+      id: 'octo'
+    }
+   ]
 
   beforeEach (() => {
     appMentionObj.create.mockReturnValue(Promise.resolve())
+    profileObj.getGreeters.mockResolvedValue(greeters)
+    utils.shuffle.mockImplementation((a) => a)
   })
 
   it('should query for an app mention', () => {

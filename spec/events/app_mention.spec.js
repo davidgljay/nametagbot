@@ -4,9 +4,11 @@ const appMentionObj = require('../../models/appMention')
 const profileObj = require('../../models/profile')
 const slackapi = require('../../slackapi')
 const lang = require('../../lang')
+const utils = require('../../utils')
 jest.mock('../../slackapi')
 jest.mock('../../models/appMention')
 jest.mock('../../models/profile')
+jest.mock('../../utils')
 
 describe('app_mention', () => {
   let req = {
@@ -21,9 +23,28 @@ describe('app_mention', () => {
       }
     }
   }
+  
+  let greeters = [
+    {
+      name: 'Fish',
+      bio: 'I am a fish',
+      background: 'Open water',
+      image: 'http://fish.com/me.jpg',
+      id: 'fsh'
+    },
+    {
+      name: 'Octopus',
+      bio: 'I am an octopus',
+      background: 'Coral reef',
+      image: 'http://octo.com/me.jpg',
+      id: 'octo'
+    }
+   ]
 
   beforeEach (() => {
     appMentionObj.create.mockReturnValue(Promise.resolve())
+    profileObj.getGreeters.mockResolvedValue(greeters)
+    utils.shuffle.mockImplementation((a) => a)
   })
 
   it('should save to the the database', () => {
@@ -54,8 +75,23 @@ describe('app_mention', () => {
     return appMentionEvent(req)
       .then(() => {
         expect(slackapi.users.info.mock.calls[0][0]).toEqual({token: req.body.token, user: req.body.event.user})
-        expect(profileObj.create.mock.calls[0][1]).toEqual({...user, greeter: true})
-        expect(profileObj.openConvo.mock.calls[0]).toEqual([req.body.event.user, lang.profile.background()])
+        expect(profileObj.create.mock.calls[0][1]).toEqual({...user, status: 'GREETER_BACKGROUND'})
+        expect(profileObj.openConvo.mock.calls[0]).toEqual([
+          req.body.event.user,
+          lang.profile.background(),
+          [
+            {
+              author_name: greeters[0].name,
+              thumbnail: greeters[0].image,
+              text: greeters[0].background
+            },
+            {
+              author_name: greeters[1].name,
+              thumbnail: greeters[1].image,
+              text: greeters[1].background
+            }
+          ]
+        ])
       })
   })
 })

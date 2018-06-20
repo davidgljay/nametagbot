@@ -22,11 +22,28 @@ describe('message', () => {
     }
   }
   let db = 'db'
+  let greeters = [
+    {
+      name: 'Fish',
+      bio: 'I am a fish',
+      background: 'Open water',
+      image: 'http://fish.com/me.jpg',
+      id: 'fsh'
+    },
+    {
+      name: 'Octopus',
+      bio: 'I am an octopus',
+      background: 'Coral reef',
+      image: 'http://octo.com/me.jpg',
+      id: 'octo'
+    }
+   ]
   
   beforeEach(() => {
     profileObj.update.mockResolvedValue({})
     slackapi.chat.postMessage.mockResolvedValue({ok: true})
     utils.shuffle.mockImplementation((a) => a)
+    profileObj.getGreeters.mockResolvedValueOnce(greeters)
   })
   
   afterEach(() => {
@@ -50,7 +67,24 @@ describe('message', () => {
     return messageEvent(req, db)
       .then(() => {
         expect(profileObj.update.mock.calls[0]).toEqual(['db', 'U061F7AUR', {background: 'Banana phone!', status: 'JOINER_BIO'}])
-        expect(slackapi.chat.postMessage.mock.calls[0][0]).toEqual({as_user: false, channel: 'C0LAN2Q65', text: lang.profile.bio()})
+        expect(slackapi.chat.postMessage.mock.calls[0][0]).toEqual({
+          channel: 'C0LAN2Q65',
+          text: lang.profile.bio(),
+          attachments: [
+            {
+              channel_id: 'intro',
+              text: 'I am a fish',
+              author_name: 'Fish',
+              thumbnail: 'http://fish.com/me.jpg'
+            },
+            {
+              channel_id: 'intro',
+              text: 'I am an octopus',
+              author_name: 'Octopus',
+              thumbnail: 'http://octo.com/me.jpg'
+            }
+          ]
+        })
       })
   })
 
@@ -61,18 +95,6 @@ describe('message', () => {
       background: 'background!',
       status: 'JOINER_BIO'
     })
-    profileObj.getGreeters.mockResolvedValueOnce([
-      {
-        bio: 'I am a fish',
-        image: 'http://fish.com/me.jpg',
-        id: 'fsh'
-      },
-      {
-        bio: 'I am an octopus',
-        image: 'http://octo.com/me.jpg',
-        id: 'octo'
-      }
-     ])
     return messageEvent(req, db)
       .then(() => {
         expect(profileObj.update.mock.calls[0]).toEqual(['db', 'U061F7AUR', {bio: 'Banana phone!', status: 'JOINER_INTROS'}])
@@ -86,18 +108,6 @@ describe('message', () => {
       background: 'background!',
       status: 'JOINER_BIO'
     })
-    profileObj.getGreeters.mockResolvedValueOnce([
-      {
-        bio: 'I am a fish',
-        image: 'http://fish.com/me.jpg',
-        id: 'fsh'
-      },
-      {
-        bio: 'I am an octopus',
-        image: 'http://octo.com/me.jpg',
-        id: 'octo'
-      }
-     ])
     return messageEvent(req, db)
       .then(() => {
         expect(slackapi.chat.postMessage.mock.calls[0][0]).toEqual({
@@ -107,7 +117,8 @@ describe('message', () => {
             {
               channel_id: 'intro',
               text: 'I am a fish',
-              author_name: 'http://fish.com/me.jpg',
+              author_name: 'Fish',
+              thumbnail: 'http://fish.com/me.jpg',
               actions: [{
                   value: 'fsh',
                   text: "Say hi"
@@ -116,7 +127,8 @@ describe('message', () => {
             {
               channel_id: 'intro',
               text: 'I am an octopus',
-              author_name: 'http://octo.com/me.jpg',
+              author_name: 'Octopus',
+              thumbnail: 'http://octo.com/me.jpg',
               actions: [{
                   value: 'octo',
                   text: "Say hi"
@@ -136,7 +148,24 @@ describe('message', () => {
     return messageEvent(req, db)
       .then(() => {
         expect(profileObj.update.mock.calls[0]).toEqual(['db', 'U061F7AUR', {background: 'Banana phone!', status: 'GREETER_BIO'}])
-        expect(slackapi.chat.postMessage.mock.calls[0][0]).toEqual({as_user: false, channel: 'C0LAN2Q65', text: lang.profile.bio()})
+        expect(slackapi.chat.postMessage.mock.calls[0][0]).toEqual({
+          channel: 'C0LAN2Q65',
+          text: lang.profile.bio(),
+          attachments: [
+            {
+              channel_id: 'intro',
+              text: 'I am a fish',
+              author_name: 'Fish',
+              thumbnail: 'http://fish.com/me.jpg'
+            },
+            {
+              channel_id: 'intro',
+              text: 'I am an octopus',
+              author_name: 'Octopus',
+              thumbnail: 'http://octo.com/me.jpg'
+            }
+          ]
+        })
       })
   })
 
@@ -150,7 +179,10 @@ describe('message', () => {
     return messageEvent(req, db)
       .then(() => {
         expect(profileObj.update.mock.calls[0]).toEqual(['db', 'U061F7AUR', {bio: 'Banana phone!', status: 'GREETER_READY'}])
-        expect(slackapi.chat.postMessage.mock.calls[0][0]).toEqual({as_user: false, channel: 'C0LAN2Q65', text: lang.greeter.thanks()})
+        expect(slackapi.chat.postMessage.mock.calls[0][0]).toEqual({
+          channel: 'C0LAN2Q65',
+          text: lang.greeter.thanks()
+        })
       })
   })
 })
