@@ -86,7 +86,7 @@ describe('reaction_added', () => {
     return reactionAddedEvent(req)
       .then(() => {
         expect(slackapi.users.info.mock.calls[0][0]).toEqual({token: req.body.token, user: req.body.event.user})
-        expect(profileObj.create.mock.calls[0][1]).toEqual({...user, greeter: true})
+        expect(profileObj.create.mock.calls[0][1]).toEqual(Object.assign({}, {user, greeter: true}))
         expect(profileObj.openConvo.mock.calls[0]).toEqual([req.body.event.user, lang.profile.background()])
       })
   })
