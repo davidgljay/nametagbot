@@ -78,7 +78,7 @@ describe('app_mention', () => {
         expect(profileObj.create.mock.calls[0][1]).toEqual(Object.assign({}, user, {status: 'GREETER_BACKGROUND'}))
         expect(profileObj.openConvo.mock.calls[0]).toEqual([
           req.body.event.user,
-          lang.profile.background(),
+          lang.profile.background(true),
           [
             {
               author_name: greeters[0].name,

@@ -15,7 +15,7 @@ module.exports = ({body: {event}}, db) => profile.get(db, event.user)
           .then(greeters =>
             slackapi.chat.postMessage({
               channel: event.channel,
-              text: lang.profile.bio(),
+              text: lang.profile.bio(greeters.length > 0),
               attachments:
                 shuffle(greeters).slice(0, 3).map(greeter => ({
                   channel_id: 'intro',
@@ -43,14 +43,15 @@ module.exports = ({body: {event}}, db) => profile.get(db, event.user)
                   text: 'Say hi'
                 }]
               }))
-            }))
+            })
+          )
       case 'GREETER_BACKGROUND':
         return profile.update(db, user.id, {background: event.text, status: 'GREETER_BIO'})
           .then(() => profile.getGreeters())
           .then(greeters =>
             slackapi.chat.postMessage({
               channel: event.channel,
-              text: lang.profile.bio(),
+              text: lang.profile.bio(greeters.length > 0),
               attachments:
                 shuffle(greeters).slice(0, 3).map(greeter => ({
                   channel_id: 'intro',

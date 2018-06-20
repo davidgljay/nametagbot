@@ -5,8 +5,8 @@ module.exports = {
     intros: () => '💯! Here are a few folks from the community who would be excited to chat with you:'
   },
   profile: {
-    background: () => 'Great! To get started, briefly share your background. Here\'s what other people from the community have said:',
-    bio: () => 'Cool, now give us a sense of what brings you here. Why did you decide to join this community? Here\'s what a few other people have said:'
+    background: (greeters) => `Great! To get started, briefly share your background. ${greeters ? 'Here\'s what other people from the community have said:' : ''}`,
+    bio: (greeters) => `Cool, now give us a sense of what brings you here. Why did you decide to join this community? ${greeters ? 'Here\'s what a few other people have said:' : ''}`
   },
   greeter: {
     thanks: () => 'Thanks! I\'ve added you to a special #greeters channel and will connect you with new people as they join.'

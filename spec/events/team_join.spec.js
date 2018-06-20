@@ -8,8 +8,25 @@ jest.mock('../../models/profile')
 describe('team_join', () => {
   let req
   let db
+  let greeters = [
+    {
+      name: 'Fish',
+      bio: 'I am a fish',
+      background: 'Open water',
+      image: 'http://fish.com/me.jpg',
+      id: 'fsh'
+    },
+    {
+      name: 'Octopus',
+      bio: 'I am an octopus',
+      background: 'Coral reef',
+      image: 'http://octo.com/me.jpg',
+      id: 'octo'
+    }
+   ]
   beforeEach(() => {
-    profileObj.create.mockReturnValueOnce(Promise.resolve())
+    profileObj.create.mockResolvedValue()
+    profileObj.getGreeters.mockResolvedValue(greeters)
     slackapi.conversations.open.mockReturnValueOnce({ok: true, channel: {id: 'defg'}})
     req = {body: {event: {user: {id: 'abcd'}}}}
     db = 'db'

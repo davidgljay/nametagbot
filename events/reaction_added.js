@@ -16,7 +16,7 @@ module.exports = ({body: {event}}, db) => appMention.getByTs(db, event.item.ts)
           .then(userInfo => profile.create(db, Object.assign({}, userInfo.user, {status: 'GREETER_BACKGROUND'})))
           .then(() => profile.openConvo(
             event.user,
-            lang.profile.background(),
+            lang.profile.background(greeters.length > 0),
             greeters.length > 0
               ? shuffle(greeters).slice(0, 3)
                 .map(greeter => ({
