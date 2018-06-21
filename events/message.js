@@ -11,11 +11,11 @@ module.exports = ({body: {event}}, db) => profile.get(db, event.user)
     switch (user.status) {
       case 'JOINER_BACKGROUND':
         return profile.update(db, user.id, {background: event.text, status: 'JOINER_BIO'})
-          .then(() => profile.getGreeters())
-          .then(greeters =>
+          .then(() => profile.getGreeters(db))
+          .then((greeters = []) =>
             slackapi.chat.postMessage({
               channel: event.channel,
-              text: lang.profile.bio(),
+              text: lang.profile.bio(greeters.length > 0),
               attachments:
                 shuffle(greeters).slice(0, 3).map(greeter => ({
                   channel_id: 'intro',
@@ -27,8 +27,8 @@ module.exports = ({body: {event}}, db) => profile.get(db, event.user)
           )
       case 'JOINER_BIO':
         return profile.update(db, user.id, {bio: event.text, status: 'JOINER_INTROS'})
-          .then(() => profile.getGreeters())
-          .then(greeters =>
+          .then(() => profile.getGreeters(db))
+          .then((greeters = []) =>
             slackapi.chat.postMessage({
               channel: event.channel,
               text: lang.joiner.intros(),
@@ -43,14 +43,15 @@ module.exports = ({body: {event}}, db) => profile.get(db, event.user)
                   text: 'Say hi'
                 }]
               }))
-            }))
+            })
+          )
       case 'GREETER_BACKGROUND':
         return profile.update(db, user.id, {background: event.text, status: 'GREETER_BIO'})
-          .then(() => profile.getGreeters())
-          .then(greeters =>
+          .then(() => profile.getGreeters(db))
+          .then((greeters = []) =>
             slackapi.chat.postMessage({
               channel: event.channel,
-              text: lang.profile.bio(),
+              text: lang.profile.bio(greeters.length > 0),
               attachments:
                 shuffle(greeters).slice(0, 3).map(greeter => ({
                   channel_id: 'intro',

@@ -6,6 +6,9 @@ module.exports = {
   update: (db, id, update) => db.collection('profiles')
     .updateOne({id}, {'$set': update}),
 
+  push: (db, id, update) => db.collection('profiles')
+    .updateOne({id}, {'$push': update}),
+
   get: (db, id) => db.collection('profiles').findOne({id}),
 
   getGreeters: (db) => db.collection('profiles').find({

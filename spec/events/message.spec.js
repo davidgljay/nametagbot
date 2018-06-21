@@ -38,14 +38,14 @@ describe('message', () => {
       id: 'octo'
     }
    ]
-  
+
   beforeEach(() => {
     profileObj.update.mockResolvedValue({})
     slackapi.chat.postMessage.mockResolvedValue({ok: true})
     utils.shuffle.mockImplementation((a) => a)
     profileObj.getGreeters.mockResolvedValueOnce(greeters)
   })
-  
+
   afterEach(() => {
     profileObj.update.mock.calls = []
     slackapi.chat.postMessage.mock.calls = []
@@ -69,7 +69,7 @@ describe('message', () => {
         expect(profileObj.update.mock.calls[0]).toEqual(['db', 'U061F7AUR', {background: 'Banana phone!', status: 'JOINER_BIO'}])
         expect(slackapi.chat.postMessage.mock.calls[0][0]).toEqual({
           channel: 'C0LAN2Q65',
-          text: lang.profile.bio(),
+          text: lang.profile.bio(true),
           attachments: [
             {
               channel_id: 'intro',
@@ -100,7 +100,7 @@ describe('message', () => {
         expect(profileObj.update.mock.calls[0]).toEqual(['db', 'U061F7AUR', {bio: 'Banana phone!', status: 'JOINER_INTROS'}])
       })
   })
-  
+
   it('should post the message with greeters if the status is JOINER_BIO', () => {
      profileObj.get.mockResolvedValueOnce({
       id: 'U061F7AUR',
@@ -138,7 +138,7 @@ describe('message', () => {
         })
       })
   })
-  
+
    it('should update the background if the user status is GREETER_BACKGROUND', () => {
     profileObj.get.mockResolvedValueOnce({
       id: 'U061F7AUR',
@@ -150,7 +150,7 @@ describe('message', () => {
         expect(profileObj.update.mock.calls[0]).toEqual(['db', 'U061F7AUR', {background: 'Banana phone!', status: 'GREETER_BIO'}])
         expect(slackapi.chat.postMessage.mock.calls[0][0]).toEqual({
           channel: 'C0LAN2Q65',
-          text: lang.profile.bio(),
+          text: lang.profile.bio(true),
           attachments: [
             {
               channel_id: 'intro',

@@ -5,6 +5,7 @@ const profileObj = require('../../models/profile')
 const slackapi = require('../../slackapi')
 const lang = require('../../lang')
 const utils = require('../../utils')
+
 jest.mock('../../slackapi')
 jest.mock('../../models/appMention')
 jest.mock('../../models/profile')
@@ -86,8 +87,23 @@ describe('reaction_added', () => {
     return reactionAddedEvent(req)
       .then(() => {
         expect(slackapi.users.info.mock.calls[0][0]).toEqual({token: req.body.token, user: req.body.event.user})
-        expect(profileObj.create.mock.calls[0][1]).toEqual({...user, greeter: true})
-        expect(profileObj.openConvo.mock.calls[0]).toEqual([req.body.event.user, lang.profile.background()])
+        expect(profileObj.create.mock.calls[0][1]).toEqual(Object.assign({}, user, {status: 'GREETER_BACKGROUND'}))
+        expect(profileObj.openConvo.mock.calls[0]).toEqual([
+          req.body.event.user,
+          lang.profile.background(true),
+          [
+            {
+              author_name: 'Fish',
+              text: 'Open water',
+              thumbnail: 'http://fish.com/me.jpg'
+            },
+            {
+              author_name: 'Octopus',
+              text: 'Coral reef',
+              thumbnail: 'http://octo.com/me.jpg'
+            }
+          ]
+        ])
       })
   })
 })
