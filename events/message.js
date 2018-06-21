@@ -12,7 +12,7 @@ module.exports = ({body: {event}}, db) => profile.get(db, event.user)
       case 'JOINER_BACKGROUND':
         return profile.update(db, user.id, {background: event.text, status: 'JOINER_BIO'})
           .then(() => profile.getGreeters(db))
-          .then((greeters = []) =>
+          .then((greeters) =>
             slackapi.chat.postMessage({
               channel: event.channel,
               text: lang.profile.bio(greeters.length > 0),
@@ -48,7 +48,7 @@ module.exports = ({body: {event}}, db) => profile.get(db, event.user)
       case 'GREETER_BACKGROUND':
         return profile.update(db, user.id, {background: event.text, status: 'GREETER_BIO'})
           .then(() => profile.getGreeters(db))
-          .then((greeters = []) =>
+          .then((greeters) =>
             slackapi.chat.postMessage({
               channel: event.channel,
               text: lang.profile.bio(greeters.length > 0),
@@ -67,5 +67,7 @@ module.exports = ({body: {event}}, db) => profile.get(db, event.user)
             channel: event.channel,
             text: lang.greeter.thanks()
           }))
+          .then(() => slackapi.app.channels.create({name: 'greeters', validate: true}))
+          .then(channel => slackapi.app.channels.invite({channel: channel.id, user: user.id}))
     }
   })

@@ -11,11 +11,11 @@ module.exports = {
 
   get: (db, id) => db.collection('profiles').findOne({id}),
 
-  getGreeters: (db) => db.collection('profiles').find({
+  getGreeters: (db) => db.collection('profiles').findOne({
     'bio': { $exists: true, $ne: null },
     'background': { $exists: true, $ne: null },
     'greeter': true
-  }),
+  }).then(g => g ? g : []),
 
   openConvo: (userId, text, attachments) => {
     return slackapi.conversations.open({users: userId})
