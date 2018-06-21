@@ -67,7 +67,7 @@ module.exports = ({body: {event}}, db) => profile.get(db, event.user)
             channel: event.channel,
             text: lang.greeter.thanks()
           }))
-          .then(() => slackapi.app.channels.create({name: 'greeters', validate: true}))
+          .then(() => slackapi.app.channels.join({name: 'greeters'}))
           .then(channel => slackapi.app.channels.invite({channel: channel.id, user: user.id}))
     }
   })
