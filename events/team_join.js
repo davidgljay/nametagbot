@@ -4,7 +4,11 @@ const lang = require('../lang')
 module.exports = ({body: {event: {user}}}, db) =>
   profile.create(db, Object.assign({}, user, {status: 'JOINER_BACKGROUND'}))
     .then(() => profile.getGreeters(db))
-    .then((greeters = []) => greeters.length > 0
+    .then(greeters => {
+      console.log(greeters)
+      return greeters
+    })
+    .then((greeters) => greeters.length > 0
       ? profile.openConvo(
         user.id,
         lang.joiner.welcome('DJ Bot Test'),
