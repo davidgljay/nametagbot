@@ -8,8 +8,21 @@ module.exports = ({body: {event}}, db) => profile.get(db, event.user)
     if (!user) {
       return Promise.resolve()
     }
+    console.log(user)
     switch (user.status) {
+      case 'OPT_OUT':
+        if (event.text === 'join') {
+          return profile.update(db, user.id, {background: event.text, status: 'JOINER_BACKGROUND'})
+            .then(() => slackapi.chat.postMessage({
+              channel: event.channel.id,
+              text: lang.profile.background()
+            })
+            )
+        } else {
+          return Promise.resolve()
+        }
       case 'JOINER_BACKGROUND':
+        console.log('joiner_bg')
         return profile.update(db, user.id, {background: event.text, status: 'JOINER_BIO'})
           .then(() => profile.getGreeters(db))
           .then((greeters) =>
@@ -20,7 +33,7 @@ module.exports = ({body: {event}}, db) => profile.get(db, event.user)
                 shuffle(greeters).slice(0, 3).map(greeter => ({
                   channel_id: 'intro',
                   text: greeter.bio,
-                  thumbnail: greeter.image,
+                  author_icon: greeter.profile.image_48,
                   author_name: greeter.name
                 }))
             })
@@ -34,13 +47,15 @@ module.exports = ({body: {event}}, db) => profile.get(db, event.user)
               text: lang.joiner.intros(),
               attachments:
               shuffle(greeters).slice(0, 3).map(greeter => ({
-                channel_id: 'intro',
-                text: greeter.bio,
-                thumbnail: greeter.image,
+                callback_id: 'intro',
+                text: `${greeter.background}\n\n${greeter.bio}`,
+                thumb_url: greeter.profile.image_72,
                 author_name: greeter.name,
                 actions: [{
+                  name: 'hi',
                   value: greeter.id,
-                  text: 'Say hi'
+                  text: 'Say hi',
+                  type: 'button'
                 }]
               }))
             })
@@ -56,7 +71,7 @@ module.exports = ({body: {event}}, db) => profile.get(db, event.user)
                 shuffle(greeters).slice(0, 3).map(greeter => ({
                   channel_id: 'intro',
                   text: greeter.bio,
-                  thumbnail: greeter.image,
+                  author_icon: greeter.profile.image_72,
                   author_name: greeter.name
                 }))
             })

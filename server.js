@@ -44,7 +44,8 @@ dbInit.then(db => {
       return
     }
     res.status(200).end()
-    return actions[`${payload.callback_id}_${payload.actions[0].value}`](payload, db)
+    console.log(`${payload.callback_id}_${payload.actions[0].name}`)
+    return actions[`${payload.callback_id}_${payload.actions[0].name}`](payload, db)
   })
 
   app.get('/register', (req, res) => {

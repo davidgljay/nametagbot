@@ -4,10 +4,6 @@ const lang = require('../lang')
 module.exports = ({body: {event: {user}}}, db) =>
   profile.create(db, Object.assign({}, user, {status: 'JOINER_BACKGROUND'}))
     .then(() => profile.getGreeters(db))
-    .then(greeters => {
-      console.log(greeters)
-      return greeters
-    })
     .then((greeters) => greeters.length > 0
       ? profile.openConvo(
         user.id,
@@ -18,16 +14,14 @@ module.exports = ({body: {event: {user}}}, db) =>
           callback_id: 'optin',
           actions: [
             {
-              name: 'optin',
+              name: 'yes',
               text: 'Sure!',
-              type: 'button',
-              value: 'yes'
+              type: 'button'
             },
             {
-              name: 'optin',
+              name: 'no',
               text: 'No thanks.',
-              type: 'button',
-              value: 'no'
+              type: 'button'
             }
           ]
         }]

@@ -28,3 +28,8 @@ module.exports = (req, db) => Promise.all([
       }
     ]})
   )
+  .then(() => slackapi.chat.postMessage({
+    channel: req.channel,
+    text: lang.joiner.connected()
+    })
+  )

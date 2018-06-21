@@ -23,7 +23,7 @@ module.exports = ({body: {event}}, db) =>
           greeters.length > 0
             ? shuffle(greeters).slice(0, 3)
               .map(greeter => ({
-                thumbnail: greeter.image,
+                author_icon: greeter.profile.image_48,
                 author_name: greeter.name,
                 text: greeter.background
               }))
