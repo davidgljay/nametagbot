@@ -44,12 +44,12 @@ dbInit.then(db => {
       return
     }
     res.status(200).end()
-    return actions[`${payload.callback_id}_${payload.actions[0].value}`](payload, db)
+    return actions[`${payload.callback_id}_${payload.actions[0].name}`](payload, db)
   })
 
   app.get('/register', (req, res) => {
-    return events.register(req.query.code)
-      .then(() => res.status(200).end())
+    res.status(200).end()
+    return events.register(req, db)
       .catch(err => console.error('Register: ', err))
   })
 })
