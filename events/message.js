@@ -8,7 +8,6 @@ module.exports = ({body: {event}}, db) => profile.get(db, event.user)
     if (!user) {
       return Promise.resolve()
     }
-    console.log(user)
     switch (user.status) {
       case 'OPT_OUT':
         if (event.text === 'join') {

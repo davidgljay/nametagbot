@@ -13,7 +13,7 @@ module.exports = ({body: {event}}, db) =>
       profile.getGreeters(db)
     ])
     )
-    .then(([user, greeters]) => user
+    .then(([user, greeters]) => user && user.status != 'ADMIN_WELCOME'
       ? Promise.resolve()
       : slackapi.users.info({user: event.user})
         .then(userInfo => profile.create(db, Object.assign({}, userInfo.user, {status: 'GREETER_BACKGROUND'})))

@@ -48,8 +48,8 @@ dbInit.then(db => {
   })
 
   app.get('/register', (req, res) => {
-    return events.register(req.query.code)
-      .then(() => res.status(200).end())
+    res.status(200).end()
+    return events.register(req, db)
       .catch(err => console.error('Register: ', err))
   })
 })
