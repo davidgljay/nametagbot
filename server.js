@@ -44,7 +44,6 @@ dbInit.then(db => {
       return
     }
     res.status(200).end()
-    console.log(`${payload.callback_id}_${payload.actions[0].name}`)
     return actions[`${payload.callback_id}_${payload.actions[0].name}`](payload, db)
   })
 

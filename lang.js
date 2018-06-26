@@ -11,5 +11,8 @@ module.exports = {
   },
   greeter: {
     thanks: () => 'Thanks! I\'ve added you to a special #greeters channel and will connect you with new people as they join.'
+  },
+  intro: {
+    welcome: (joiner, greeter) => `<@${joiner}>, meet <@${greeter}>. <@${joiner}> is new here and would love to learn more about the community.`
   }
 }
