@@ -20,11 +20,7 @@ module.exports = ({body: {event}}, db) => appMention.getByTs(db, event.item.ts)
             greeters.length > 0
               ? shuffle(greeters).slice(0, 3)
                 .map(greeter => ({
-<<<<<<< HEAD
-                  thumbnail: greeter.image,
-=======
                   author_icon: greeter.profile.image_48,
->>>>>>> 1cb2c3dd71e0a663e510d09c84094c442b10b073
                   author_name: greeter.name,
                   text: greeter.background
                 }))
