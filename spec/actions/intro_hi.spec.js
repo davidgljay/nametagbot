@@ -24,8 +24,8 @@ describe('intro_hi action', () => {
     }
   ]
     let req = {
-    value: users[0].id,
-    user: users[1].id
+    actions: [{value: users[0].id}],
+    user: {id: users[1].id}
   }
   let convo = {
     channel: {

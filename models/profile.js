@@ -14,8 +14,8 @@ module.exports = {
   getGreeters: (db) => db.collection('profiles').find({
     'bio': { $exists: true, $ne: null },
     'background': { $exists: true, $ne: null },
-    'greeter': true
-  }),
+    'status': 'GREETER_READY'
+  }).toArray(),
 
   openConvo: (userId, text, attachments) => {
     return slackapi.conversations.open({users: userId})

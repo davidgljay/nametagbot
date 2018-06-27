@@ -8,7 +8,7 @@ module.exports = ({body: {event}}, db) => appMention.getByTs(db, event.item.ts)
   .then(mention => mention
     ? Promise.all([
       profile.get(db, event.user),
-      profile.getGreeters()
+      profile.getGreeters(db)
     ])
       .then(([user, greeters]) => user
         ? Promise.resolve()
@@ -20,7 +20,7 @@ module.exports = ({body: {event}}, db) => appMention.getByTs(db, event.item.ts)
             greeters.length > 0
               ? shuffle(greeters).slice(0, 3)
                 .map(greeter => ({
-                  thumbnail: greeter.image,
+                  author_icon: greeter.profile.image_48,
                   author_name: greeter.name,
                   text: greeter.background
                 }))

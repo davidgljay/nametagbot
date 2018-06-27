@@ -14,16 +14,14 @@ module.exports = ({body: {event: {user}}}, db) =>
           callback_id: 'optin',
           actions: [
             {
-              name: 'optin',
+              name: 'yes',
               text: 'Sure!',
-              type: 'button',
-              value: 'yes'
+              type: 'button'
             },
             {
-              name: 'optin',
+              name: 'no',
               text: 'No thanks.',
-              type: 'button',
-              value: 'no'
+              type: 'button'
             }
           ]
         }]

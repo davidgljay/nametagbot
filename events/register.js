@@ -1,46 +1,24 @@
 const team = require('../models/team')
-const web = require('../slackapi')
+const slackapi = require('../slackapi')
 const profile = require('../models/profile')
 const lang = require('../lang')
+const {SLACK_CLIENT_ID, SLACK_CLIENT_SECRET} = process.env
 
-const getmembers = token => response => {
-  if (!response.ok) {
-    return Promise.reject(new Error('Failed to return list of users.', response.error))
-  }
-  const promises = []
-  promises.concat(
-    response.members.map(member =>
-      profile.add(member)
-        .then(() => web.conversations.open(member.id))
-        .then(conversation => conversation.ok ? conversation : Promise.reject(new Error('Failed to open conversation', conversation.error)))
-        .then(conversation => web.chat.postMessage({
-          token,
-          channel: conversation.channel.id,
-          text: lang.welcome()
-        }))
-    )
+module.exports = (req, db) => slackapi.oauth.access({code: req.query.code, client_id: SLACK_CLIENT_ID, client_secret: SLACK_CLIENT_SECRET})
+  .then(teamInfo => team.create(Object.assign({}, teamInfo, {id: teamInfo.team_id, bot_access_token: teamInfo.bot.bot_access_token})))
+  .then(() => slackapi.users.list({token: req.body.token}))
+  .then(users => Promise.all([
+    users
+      .filter(u => u.profile.is_admin)
+      .map(u =>
+        profile.create(db, Object.assign({}, u, {status: 'ADMIN_WELCOME'}))
+          .then(() => profile.openConvo(
+            u.id,
+            lang.admin.welcome(),
+            [{
+              text: lang.admin.example()
+            }]
+          ))
+      )
+  ])
   )
-
-  // Get more members if they exist
-  if (response.response_metadata && response.response_metadata.nextcursor) {
-    promises.push(
-      web.users.list({token: token, cursor: response.response_metadata.nextcursor})
-        .then(getmembers(token))
-    )
-  }
-
-  // Add some throtling to not overwhelm Slack's API.
-  // In the future this could be more elegantly handled using a pubsub.
-  let chainedPromise = Promise.resolve
-  for (var i = 0; i < promises.length; i++) {
-    chainedPromise.then(() =>
-      new Promise(resolve => setTimeout(() => promises[i].then(resolve), 500))
-    )
-  }
-
-  return chainedPromise
-}
-
-module.exports = (req, res) => team.create(Object.assign({}, req.body, {id: req.body.team_id}))
-  .then(() => web.users.list({token: req.body.token}))
-  .then(getmembers(req.body.token))
