@@ -1,4 +1,4 @@
- const appMention = require('../models/appMention')
+const appMention = require('../models/appMention')
 const profile = require('../models/profile')
 const slackapi = require('../slackapi')
 const {shuffle} = require('../utils')

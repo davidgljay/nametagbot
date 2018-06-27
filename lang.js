@@ -24,6 +24,6 @@ module.exports = {
                 'To get started, just mentiong <@IntroBot> in a public post. Here\'s an example:',
     example: () => 'Hey everyone, I wanted to try out a new thing called <@IntroBot> which helps new people get plugged into the community.' +
                 'If you\'d like to volunteer just :thumbsup: this message, you\'ll get asked a little about yourself and then new members will' +
-                'get connected with you from time to time.' 
+                'get connected with you from time to time.'
   }
 }

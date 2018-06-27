@@ -21,7 +21,6 @@ module.exports = ({body: {event}}, db) => profile.get(db, event.user)
           return Promise.resolve()
         }
       case 'JOINER_BACKGROUND':
-        console.log('joiner_bg')
         return profile.update(db, user.id, {background: event.text, status: 'JOINER_BIO'})
           .then(() => profile.getGreeters(db))
           .then((greeters) =>

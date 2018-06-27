@@ -13,14 +13,18 @@ describe('team_join', () => {
       name: 'Fish',
       bio: 'I am a fish',
       background: 'Open water',
-      image: 'http://fish.com/me.jpg',
+      profile: {
+        image_48: 'http://fish.com/me.jpg'
+      },
       id: 'fsh'
     },
     {
       name: 'Octopus',
       bio: 'I am an octopus',
       background: 'Coral reef',
-      image: 'http://octo.com/me.jpg',
+      profile: {
+        image_48: 'http://octo.com/me.jpg'
+      },
       id: 'octo'
     }
    ]
@@ -51,16 +55,14 @@ describe('team_join', () => {
       callback_id: "optin",
       actions: [
             {
-              name: "optin",
+              name: "yes",
               text: "Sure!",
-              type: "button",
-              value: "yes"
+              type: "button"
             },
             {
-              name: "optin",
+              name: "no",
               text: "No thanks.",
-              type: "button",
-              value: "no"
+              type: "button"
             }
         ]
       }]

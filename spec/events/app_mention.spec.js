@@ -29,14 +29,18 @@ describe('app_mention', () => {
       name: 'Fish',
       bio: 'I am a fish',
       background: 'Open water',
-      image: 'http://fish.com/me.jpg',
+      profile: {
+        image_48: 'http://fish.com/me.jpg'
+      },
       id: 'fsh'
     },
     {
       name: 'Octopus',
       bio: 'I am an octopus',
       background: 'Coral reef',
-      image: 'http://octo.com/me.jpg',
+      profile: {
+        image_48: 'http://octo.com/me.jpg'
+      },
       id: 'octo'
     }
    ]
@@ -82,12 +86,12 @@ describe('app_mention', () => {
           [
             {
               author_name: greeters[0].name,
-              thumbnail: greeters[0].image,
+              author_icon: greeters[0].profile.image_48,
               text: greeters[0].background
             },
             {
               author_name: greeters[1].name,
-              thumbnail: greeters[1].image,
+              author_icon: greeters[1].profile.image_48,
               text: greeters[1].background
             }
           ]

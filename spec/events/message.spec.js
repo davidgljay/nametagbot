@@ -27,14 +27,20 @@ describe('message', () => {
       name: 'Fish',
       bio: 'I am a fish',
       background: 'Open water',
-      image: 'http://fish.com/me.jpg',
+      profile: {
+        image_48: 'http://fish.com/me.jpg',
+        image_72: 'http://fish.com/me.jpg'
+      },
       id: 'fsh'
     },
     {
       name: 'Octopus',
       bio: 'I am an octopus',
       background: 'Coral reef',
-      image: 'http://octo.com/me.jpg',
+      profile: {
+        image_48: 'http://octo.com/me.jpg',
+        image_72: 'http://octo.com/me.jpg'
+      },
       id: 'octo'
     }
    ]
@@ -42,6 +48,7 @@ describe('message', () => {
   beforeEach(() => {
     profileObj.update.mockResolvedValue({})
     slackapi.chat.postMessage.mockResolvedValue({ok: true})
+    slackapi.app.channels.join.mockResolvedValue({id: 'greetersid'})
     utils.shuffle.mockImplementation((a) => a)
     profileObj.getGreeters.mockResolvedValueOnce(greeters)
   })
@@ -75,13 +82,13 @@ describe('message', () => {
               channel_id: 'intro',
               text: 'I am a fish',
               author_name: 'Fish',
-              thumbnail: 'http://fish.com/me.jpg'
+              author_icon: 'http://fish.com/me.jpg'
             },
             {
               channel_id: 'intro',
               text: 'I am an octopus',
               author_name: 'Octopus',
-              thumbnail: 'http://octo.com/me.jpg'
+              author_icon: 'http://octo.com/me.jpg'
             }
           ]
         })
@@ -115,21 +122,25 @@ describe('message', () => {
           text: lang.joiner.intros(),
           attachments: [
             {
-              channel_id: 'intro',
-              text: 'I am a fish',
+              callback_id: 'intro',
+              text: `${greeters[0].background}\n\n${greeters[0].bio}`,
               author_name: 'Fish',
-              thumbnail: 'http://fish.com/me.jpg',
+              thumb_url: 'http://fish.com/me.jpg',
               actions: [{
+                  name: 'hi',
+                  type: 'button',
                   value: 'fsh',
                   text: "Say hi"
               }]
             },
             {
-              channel_id: 'intro',
-              text: 'I am an octopus',
+              callback_id: 'intro',
+              text: `${greeters[1].background}\n\n${greeters[1].bio}`,
               author_name: 'Octopus',
-              thumbnail: 'http://octo.com/me.jpg',
+              thumb_url: 'http://octo.com/me.jpg',
               actions: [{
+                  name: 'hi',
+                  type: 'button',
                   value: 'octo',
                   text: "Say hi"
               }]
@@ -156,13 +167,13 @@ describe('message', () => {
               channel_id: 'intro',
               text: 'I am a fish',
               author_name: 'Fish',
-              thumbnail: 'http://fish.com/me.jpg'
+              author_icon: 'http://fish.com/me.jpg'
             },
             {
               channel_id: 'intro',
               text: 'I am an octopus',
               author_name: 'Octopus',
-              thumbnail: 'http://octo.com/me.jpg'
+              author_icon: 'http://octo.com/me.jpg'
             }
           ]
         })

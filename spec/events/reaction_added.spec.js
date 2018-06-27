@@ -33,14 +33,18 @@ describe('reaction_added', () => {
       name: 'Fish',
       bio: 'I am a fish',
       background: 'Open water',
-      image: 'http://fish.com/me.jpg',
+      profile: {
+        image_48: 'http://fish.com/me.jpg'
+      },
       id: 'fsh'
     },
     {
       name: 'Octopus',
       bio: 'I am an octopus',
       background: 'Coral reef',
-      image: 'http://octo.com/me.jpg',
+      profile: {
+        image_48: 'http://octo.com/me.jpg'
+      },
       id: 'octo'
     }
    ]
@@ -95,12 +99,12 @@ describe('reaction_added', () => {
             {
               author_name: 'Fish',
               text: 'Open water',
-              thumbnail: 'http://fish.com/me.jpg'
+              author_icon: 'http://fish.com/me.jpg'
             },
             {
               author_name: 'Octopus',
               text: 'Coral reef',
-              thumbnail: 'http://octo.com/me.jpg'
+              author_icon: 'http://octo.com/me.jpg'
             }
           ]
         ])
