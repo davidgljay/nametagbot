@@ -17,10 +17,10 @@ module.exports = {
     'status': 'GREETER_READY'
   }).toArray(),
 
-  openConvo: (userId, text, attachments) => {
-    return slackapi.conversations.open({users: userId})
+  openConvo: (team, userId, text, attachments) => {
+    return slackapi.bot(team).conversations.open({users: userId})
       .then(slackapi.catchErr('Error opening conversation'))
-      .then(conversation => slackapi.chat.postMessage({
+      .then(conversation => slackapi.bot(team).chat.postMessage({
         as_user: false,
         channel: conversation.channel.id,
         text,

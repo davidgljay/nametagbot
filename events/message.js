@@ -1,10 +1,14 @@
 const profile = require('../models/profile')
+const team = require('../models/team')
 const slackapi = require('../slackapi')
 const lang = require('../lang')
 const {shuffle} = require('../utils')
 
-module.exports = ({body: {event}}, db) => profile.get(db, event.user)
-  .then(user => {
+module.exports = ({body: {event, team_id}}, db) => Promise.all([
+  profile.get(db, event.user),
+  team.get(db, team_id)
+  ])
+  .then(([user, team]) => {
     if (!user) {
       return Promise.resolve()
     }
@@ -12,7 +16,7 @@ module.exports = ({body: {event}}, db) => profile.get(db, event.user)
       case 'OPT_OUT':
         if (event.text === 'join') {
           return profile.update(db, user.id, {background: event.text, status: 'JOINER_BACKGROUND'})
-            .then(() => slackapi.chat.postMessage({
+            .then(() => slackapi.bot(team).chat.postMessage({
               channel: event.channel.id,
               text: lang.profile.background()
             })
@@ -23,8 +27,8 @@ module.exports = ({body: {event}}, db) => profile.get(db, event.user)
       case 'JOINER_BACKGROUND':
         return profile.update(db, user.id, {background: event.text, status: 'JOINER_BIO'})
           .then(() => profile.getGreeters(db))
-          .then((greeters) =>
-            slackapi.chat.postMessage({
+          .then(greeters =>
+            slackapi.bot(team).chat.postMessage({
               channel: event.channel,
               text: lang.profile.bio(greeters.length > 0),
               attachments:
@@ -40,7 +44,7 @@ module.exports = ({body: {event}}, db) => profile.get(db, event.user)
         return profile.update(db, user.id, {bio: event.text, status: 'JOINER_INTROS'})
           .then(() => profile.getGreeters(db))
           .then((greeters = []) =>
-            slackapi.chat.postMessage({
+            slackapi.bot(team).chat.postMessage({
               channel: event.channel,
               text: lang.joiner.intros(),
               attachments:
@@ -61,8 +65,8 @@ module.exports = ({body: {event}}, db) => profile.get(db, event.user)
       case 'GREETER_BACKGROUND':
         return profile.update(db, user.id, {background: event.text, status: 'GREETER_BIO'})
           .then(() => profile.getGreeters(db))
-          .then((greeters) =>
-            slackapi.chat.postMessage({
+          .then(greeters =>
+            slackapi.bot(team).chat.postMessage({
               channel: event.channel,
               text: lang.profile.bio(greeters.length > 0),
               attachments:
@@ -76,11 +80,11 @@ module.exports = ({body: {event}}, db) => profile.get(db, event.user)
           )
       case 'GREETER_BIO':
         return profile.update(db, user.id, {bio: event.text, status: 'GREETER_READY'})
-          .then(() => slackapi.chat.postMessage({
+          .then(() => slackapi.bot(team).chat.postMessage({
             channel: event.channel,
             text: lang.greeter.thanks()
           }))
-          .then(() => slackapi.app.channels.join({name: 'greeters'}))
-          .then(channel => slackapi.app.channels.invite({channel: channel.id, user: user.id}))
+          .then(() => slackapi.app(team).channels.join({name: 'greeters'}))
+          .then(channel => slackapi.app(team).channels.invite({channel: channel.id, user: user.id}))
     }
   })

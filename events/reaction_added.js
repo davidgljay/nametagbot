@@ -1,18 +1,20 @@
 const appMention = require('../models/appMention')
 const profile = require('../models/profile')
+const team = require('../models/team')
 const slackapi = require('../slackapi')
 const {shuffle} = require('../utils')
 const lang = require('../lang')
 
-module.exports = ({body: {event}}, db) => appMention.getByTs(db, event.item.ts)
+module.exports = ({body: {event, team_id}}, db) => appMention.getByTs(db, event.item.ts)
   .then(mention => mention
     ? Promise.all([
       profile.get(db, event.user),
-      profile.getGreeters(db)
+      profile.getGreeters(db),
+      team.get(db, team_id)
     ])
-      .then(([user, greeters]) => user
+      .then(([user, greeters, team]) => user
         ? Promise.resolve()
-        : slackapi.users.info({user: event.user})
+        : slackapi.bot(team).users.info({user: event.user})
           .then(userInfo => profile.create(db, Object.assign({}, userInfo.user, {status: 'GREETER_BACKGROUND'})))
           .then(() => profile.openConvo(
             event.user,

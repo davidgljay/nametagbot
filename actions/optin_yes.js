@@ -1,11 +1,16 @@
 const slackapi = require('../slackapi')
 const lang = require('../lang')
 const profile = require('../models/profile')
+const team = require('../models/team')
 const {shuffle} = require('../utils')
 
 module.exports = (req, db) => profile.update(db, req.user, {state: 'JOINER_BACKGROUND'})
-  .then(() => profile.getGreeters(db))
-  .then(greeters => slackapi.chat.postMessage({
+  .then(() => Promise.all([
+      profile.getGreeters(db),
+      team.get(db, req.body.team_id)
+    ])
+  )
+  .then(([greeters, team]) => slackapi.bot(team).chat.postMessage({
     channel: req.channel.id,
     text: lang.profile.background(greeters.length > 0),
     attachments: greeters.length > 0

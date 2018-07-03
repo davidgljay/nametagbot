@@ -1,11 +1,16 @@
 const profile = require('../models/profile')
+const team = require('../models/team')
 const lang = require('../lang')
 
-module.exports = ({body: {event: {user}}}, db) =>
+module.exports = ({body: {team_id, event: {user}}}, db) =>
   profile.create(db, Object.assign({}, user, {status: 'JOINER_BACKGROUND'}))
-    .then(() => profile.getGreeters(db))
-    .then((greeters) => greeters.length > 0
+    .then(() => Promise.all([
+      profile.getGreeters(db),
+      team.get(db, team_id)
+    ]))
+    .then(([greeters, team])=> greeters.length > 0
       ? profile.openConvo(
+        team,
         user.id,
         lang.joiner.welcome('DJ Bot Test'),
         [{

@@ -9,6 +9,11 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 
 dbInit.then(db => {
+  
+  app.get('/', (req, res) => {
+    res.send('IntroBot!')
+  })
+  
   app.post('/events', (req, res) => {
     if (req.body.token !== process.env.SLACK_TOKEN) {
       console.error('Incorrect Slack token received with request', req.body)
@@ -48,7 +53,7 @@ dbInit.then(db => {
   })
 
   app.get('/register', (req, res) => {
-    res.status(200).end()
+    res.send('IntroBot added!').end()
     return events.register(req, db)
       .catch(err => console.error('Register: ', err))
   })
