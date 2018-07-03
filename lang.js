@@ -6,7 +6,7 @@ module.exports = {
     connected: () => 'Great! I\'ve introduced the two of you in a private channel.'
   },
   profile: {
-    background: (greeters) => `Great! To get started, briefly share your background. ${greeters ? 'Here\'s what other people from the community have said:' : ''}`,
+    background: (greeters) => `Great! To get started, briefly share your background. ${greeters ? '\n\nHere\'s what other people from the community have said:' : ''}`,
     bio: (greeters) => `Cool, now give us a sense of what brings you here. Why did you decide to join this community? ${greeters ? 'Here\'s what a few other people have said:' : ''}`
   },
   greeter: {

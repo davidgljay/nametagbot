@@ -17,6 +17,7 @@ module.exports = ({body: {event, team_id}}, db) => appMention.getByTs(db, event.
         : slackapi.bot(team).users.info({user: event.user})
           .then(userInfo => profile.create(db, Object.assign({}, userInfo.user, {status: 'GREETER_BACKGROUND'})))
           .then(() => profile.openConvo(
+            team,
             event.user,
             lang.profile.background(greeters.length > 0),
             greeters.length > 0

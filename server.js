@@ -30,7 +30,7 @@ dbInit.then(db => {
       // For testing purposes, trigger events from messages
       if (req.body.event.type === 'message' && events[req.body.event.text]) {
         console.log('manually triggered event', req.body.event.text)
-        return events[req.body.event.text]({body: {event: {user: {id: req.body.event.user}}}}, db)
+        return events[req.body.event.text]({body: {team_id: req.body.team_id, event: {user: {id: req.body.event.user}}}}, db)
           .catch(err => console.error('Event: ', err))
       }
       return events[req.body.event.type](req, db)

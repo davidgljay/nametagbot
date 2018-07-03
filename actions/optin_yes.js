@@ -7,7 +7,7 @@ const {shuffle} = require('../utils')
 module.exports = (req, db) => profile.update(db, req.user, {state: 'JOINER_BACKGROUND'})
   .then(() => Promise.all([
       profile.getGreeters(db),
-      team.get(db, req.body.team_id)
+      team.get(db, req.team.id)
     ])
   )
   .then(([greeters, team]) => slackapi.bot(team).chat.postMessage({

@@ -5,7 +5,7 @@ const team = require('../models/team')
 
 module.exports = (req, db) =>
   Promise.all([
-    team.get(db, req.body.team_id),
+    team.get(db, req.team.id),
     profile.update(db, req.user.id, {status: 'JOINER_INTROED'}),
     profile.push(db, req.actions[0].value, {mentees: req.user.id})
   ])
